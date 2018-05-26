@@ -22,7 +22,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
             headerBuilder: (BuildContext context, bool isExpanded) {
               return new Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-                child: new Text('What is the problem?', style: Theme.of(context).textTheme.title),
+                child: new Align(alignment: Alignment.centerLeft ,child: new Text('What is the problem?', style: Theme.of(context).textTheme.title)),
               );
             },
             body: new Padding(
@@ -35,7 +35,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
             headerBuilder: (BuildContext context, bool isExpanded) {
               return new Padding(
                 padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-                child: new Text("What can I do?", style: Theme.of(context).textTheme.title),
+                child: new Align(alignment: Alignment.centerLeft, child: new Text("What can I do?", style: Theme.of(context).textTheme.title)),
               );
             },
             body: new Text("The solution"),
