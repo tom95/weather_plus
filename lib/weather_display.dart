@@ -53,9 +53,9 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
             Expanded(child: Text(data.degrees.toString() + "°C", style: Theme.of(context).textTheme.display3)),
             new Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
-              child: Icon(Icons.wb_sunny, size: 48.0,),
+              child: Icon(Icons.wb_sunny, size: 48.0, color: Theme.of(context).textTheme.display3.color),
             ),
-            Text(data.description, style: Theme.of(context).textTheme.headline),
+            Text(data.description[0].toUpperCase() + data.description.substring(1), style: Theme.of(context).textTheme.headline),
           ]),
     );
   }
