@@ -20,14 +20,15 @@ class FeedDetails extends StatelessWidget {
           leading: Icon(Icons.wb_sunny),
         ),
         body: new Center(
-          child: new Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+          child: new ListView(
             children: <Widget>[
               new ProblemActionDisplay(),
               new VoteButton(this.feedItem.reference),
-              new CommentForm(this.feedItem.reference),
+              new Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: new CommentForm(this.feedItem.reference),
+              ),
               new MyImagePicker(this.feedItem.reference),
-              new Text('test')
             ]
           )
         )
