@@ -30,6 +30,7 @@ class _CommentFormState extends State<CommentForm> {
       Scaffold.of(context).showSnackBar(new SnackBar(
         content: new Text("Thanks for your comment!"),
       ));
+      form.reset();
     }
   }
 

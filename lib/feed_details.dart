@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ class FeedDetails extends StatelessWidget {
         body: new Center(
           child: new ListView(
             children: <Widget>[
-              new ProblemActionDisplay(),
+              new ProblemActionDisplay(feedItem: feedItem),
               new VoteButton(this.feedItem.reference),
               new Padding(
                 padding: const EdgeInsets.all(8.0),
