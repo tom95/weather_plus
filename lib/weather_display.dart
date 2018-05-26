@@ -67,8 +67,8 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
         padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 0.0),
         child: Column(
           children: <Widget>[
-            Text(value, style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
-            Text(title, style: Theme.of(context).textTheme.body1.copyWith(color: Colors.white)),
+            Text(value, style: Theme.of(context).textTheme.title.copyWith(color: Colors.black54)),
+            Text(title, style: Theme.of(context).textTheme.body1.copyWith(color: Colors.black54)),
           ],
         ),
       ),
@@ -78,13 +78,13 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   Widget _buildCurrentSituation(BuildContext context, WeatherInformation data) {
     return Row(
       children: <Widget>[
-        _buildCurrentBox(context, "Air Pollution", "20%", Colors.red[400]),
+        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFA926)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", Colors.green[400]),
+        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFC5E1A5)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", Colors.green[400]),
+        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFC5E1A5)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Rain", "10%", Colors.green[400]),
+        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFC5E1A5)),
       ],
     );
   }
