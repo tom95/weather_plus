@@ -6,7 +6,7 @@ class Feed extends StatelessWidget {
   build(BuildContext context) {
     return Scaffold(
         body: new StreamBuilder<QuerySnapshot>(
-          stream: Firestore.instance.collection('baby').snapshots(),
+          stream: Firestore.instance.collection('feed').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) return new Text('Loading...');
             final int messageCount = snapshot.data.documents.length;
@@ -19,9 +19,9 @@ class Feed extends StatelessWidget {
                 return Card(
                     child: ListTile(
                       leading: Icon(Icons.cloud),
-                      title: Text(document['name']),
+                      title: Text(document['title']),
                       trailing: Row(children: <Widget>[
-                          /*Text(document['votes']),*/ // TODO: Doesn't work.
+                          Text(document['votes'].toString()),
                           Icon(Icons.person)
                       ])
                     )
