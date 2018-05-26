@@ -18,9 +18,9 @@ class MyApp extends StatelessWidget {
 
   ThemeData _buildTheme(ThemeData base) {
     return base.copyWith(
-      accentColor: Colors.red[400],
-      primaryColor: const Color(0xFF33691E),
-      buttonColor: const Color(0xFFFF9A00),
+      accentColor: const Color(0xFFFFCD81),
+      primaryColor: const Color(0xFF7CB342),
+      buttonColor: const Color(0xFFFFCD81),
       primaryIconTheme: base.iconTheme.copyWith(opacity: 0.1),
       textTheme: _buildTextTheme(base.textTheme)
     );
@@ -90,6 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addTopic,
         tooltip: 'Increment',
+        foregroundColor: Colors.black,
         label: Text('Topic'.toUpperCase()),
         icon: new Icon(Icons.add),
       ),
