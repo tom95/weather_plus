@@ -24,7 +24,7 @@ class WeatherInformation {
 
 Future<WeatherInformation> fetchWeatherInformation() async {
     // Hard coded to Potsdam location
-    final apiKey = config.OpenWeatherMapAPIKey;
+    final apiKey = config.openWeatherMapAPIKey;
     final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=52&lon=13&appid=' + apiKey);
     final responseJson = json.decode(response.body);
 
@@ -40,7 +40,7 @@ class WeatherDisplay extends StatelessWidget {
 
           children: <Widget>[
             // Icon(Icons.wb_sunny),
-            Expanded(child: Text(data.degrees.toString() + "°C", style: Theme.of(context).textTheme.display2)),
+            Expanded(child: Text(data.degrees.toString() + "°C", style: Theme.of(context).textTheme.display3)),
             new Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
               child: Icon(Icons.wb_sunny, size: 48.0,),
