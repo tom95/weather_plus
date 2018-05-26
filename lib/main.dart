@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_plus/feed.dart';
 import 'weather_display.dart';
 
 void main() => runApp(new MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'Weather Plus',
       theme: _buildTheme(ThemeData.light()),
       home: new MyHomePage(title: 'Weather Plus'),
+      // home: Feed(),
     );
   }
 }
