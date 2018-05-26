@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 class Feed extends StatelessWidget {
   @override
   build(BuildContext context) {
-    return Scaffold(
-        body: new StreamBuilder<QuerySnapshot>(
+    return new StreamBuilder<QuerySnapshot>(
           stream: Firestore.instance.collection('feed').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) return new Text('Loading...');
@@ -29,7 +28,6 @@ class Feed extends StatelessWidget {
               },
             );
           },
-        )
     );
   }
 }

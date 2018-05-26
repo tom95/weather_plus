@@ -24,8 +24,8 @@ class WeatherInformation {
 
 Future<WeatherInformation> fetchWeatherInformation() async {
     // Hard coded to Potsdam location
-    final api_key = config.OpenWeatherMapAPIKey;
-    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=52&lon=13&appid=' + api_key);
+    final apiKey = config.OpenWeatherMapAPIKey;
+    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=52&lon=13&appid=' + apiKey);
     final responseJson = json.decode(response.body);
 
     return new WeatherInformation.fromJson(responseJson);
