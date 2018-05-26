@@ -18,6 +18,7 @@ class MyApp extends StatelessWidget {
     return base.copyWith(
       accentColor: Colors.red[400],
       primaryColor: const Color(0xFF33691E),
+      buttonColor: const Color(0xFFFF9A00),
       primaryIconTheme: base.iconTheme.copyWith(opacity: 0.1),
       textTheme: _buildTextTheme(base.textTheme)
     );
