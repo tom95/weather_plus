@@ -14,17 +14,17 @@ class WeatherInformation {
 
   factory WeatherInformation.fromJson(Map<String, dynamic> json) {
     return WeatherInformation(
-      degrees: (json['main']['temp'] - 273.15).round(),
+      degrees: json['main']['temp'].round(),
       description: json['weather'][0]['description'],
       iconName: json['weather'][0]['icon'],
-      windSpeed: json['wind']['speed']
+      windSpeed: json['wind']['speed'].toDouble()
     );
   }
 }
 
 Future<WeatherInformation> fetchWeatherInformation(double latitude, double longitude) async {
     final apiKey = config.openWeatherMapAPIKey;
-    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
+    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?units=metric&lat=$latitude&lon=$longitude&appid=$apiKey');
     final responseJson = json.decode(response.body);
 
     return new WeatherInformation.fromJson(responseJson);
