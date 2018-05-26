@@ -10,3 +10,5 @@ build/
 
 .idea
 /android/app/google-services.json
+
+/lib/config.dart

@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'config.dart' as config;
 
 class WeatherInformation {
   final int degrees;
   final String description;
   final String iconName;
+  final double windSpeed;
 
-  WeatherInformation({this.degrees, this.description, this.iconName});
+  WeatherInformation({this.degrees, this.description, this.iconName, this.windSpeed});
 
   factory WeatherInformation.fromJson(Map<String, dynamic> json) {
     return WeatherInformation(
-      degrees: json['degrees'],
-      description: json['description'],
-      iconName: json['iconName']
+      degrees: (json['main']['temp'] - 273.15).round(),
+      description: json['weather'][0]['description'],
+      iconName: json['weather'][0]['icon'],
+      windSpeed: json['wind']['speed']
     );
   }
 }
 
-Future<WeatherInformation> fetchWeatherInformation() {
-  return new Future.value(WeatherInformation(degrees: 20, description: "Cloudy", iconName: "clouds"));
+Future<WeatherInformation> fetchWeatherInformation() async {
+    // Hard coded to Potsdam location
+    final api_key = config.OpenWeatherMapAPIKey;
+    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=52&lon=13&appid=' + api_key);
+    final responseJson = json.decode(response.body);
+
+    return new WeatherInformation.fromJson(responseJson);
 }
 
 class WeatherDisplay extends StatelessWidget {
@@ -33,7 +43,7 @@ class WeatherDisplay extends StatelessWidget {
             Expanded(child: Text(data.degrees.toString() + "°C", style: Theme.of(context).textTheme.display2)),
             new Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
-              child: Icon(Icons.wb_cloudy, size: 48.0,),
+              child: Icon(Icons.wb_sunny, size: 48.0,),
             ),
             Text(data.description, style: Theme.of(context).textTheme.headline),
           ]),
@@ -60,9 +70,9 @@ class WeatherDisplay extends StatelessWidget {
       children: <Widget>[
         _buildCurrentBox(context, "Air Pollution", "20%", Colors.red[400]),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Temperature", "22°C", Colors.green[400]),
+        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", Colors.green[400]),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", "3km/h", Colors.green[400]),
+        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", Colors.green[400]),
         VerticalDivider(width: 1.0),
         _buildCurrentBox(context, "Rain", "10%", Colors.green[400]),
       ],
@@ -75,7 +85,7 @@ class WeatherDisplay extends StatelessWidget {
       future: fetchWeatherInformation(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Text(snapshot.data.toString());
+          return Text(snapshot.error.toString());
         }
         if (snapshot.hasData) {
           return Column(
