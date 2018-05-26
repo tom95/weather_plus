@@ -45,7 +45,7 @@ class _CommentFormState extends State<CommentForm> {
       form.save();
       var comment = Firestore.instance.collection("comments").document();
 
-      String imageName = null;
+      String imageName;
       if (imageNotifier.value != null) {
         Uuid uuid = new Uuid();
         imageName = uuid.v4() + '.jpg';
