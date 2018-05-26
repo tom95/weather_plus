@@ -1,10 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class CommentData {
-  String text = '';
-}
-
 class CommentForm extends StatefulWidget {
+  final DocumentReference feedItemReference;
+  CommentForm(this.feedItemReference);
+
   @override
   _CommentFormState createState() => new  _CommentFormState();
 }
@@ -13,7 +13,7 @@ final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
 class _CommentFormState extends State<CommentForm> {
 
-  CommentData comment = new CommentData();
+  String commentText;
 
   String _validateText(String value) {
     if (value.isEmpty)
@@ -23,10 +23,13 @@ class _CommentFormState extends State<CommentForm> {
 
   void _handleSubmitted() {
     final FormState form = _formKey.currentState;
-    if (!form.validate()) {
-      // ToDo
-    } else {
+    if (form.validate()) {
       form.save();
+      Firestore.instance.collection("comments").document()
+          .setData({'text': commentText, 'feedItem': widget.feedItemReference});
+      Scaffold.of(context).showSnackBar(new SnackBar(
+        content: new Text("Thanks for your comment!"),
+      ));
     }
   }
 
@@ -45,7 +48,9 @@ class _CommentFormState extends State<CommentForm> {
                 helperText: 'Share your opinions with the community',
                 labelText: 'Comment Text',
               ),
-              onSaved: (String value) { comment.text = value; },
+              onSaved: (String value) {
+                commentText = value;
+                },
               validator: _validateText,
               maxLines: 3,
             ),
