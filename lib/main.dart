@@ -20,7 +20,6 @@ class MyApp extends StatelessWidget {
       title: 'Weather Plus',
       theme: _buildTheme(ThemeData.light()),
       home: new MyHomePage(title: 'Weather Plus'),
-      // home: Feed(),
     );
   }
 }
@@ -99,6 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.display1,
             ),
+            SizedBox(
+              height: 200.0,
+              child: Feed(),
+            )
           ],
         ),
       ),
