@@ -1,14 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:weather_plus/feed.dart';
+import 'package:weather_plus/file_storage.dart';
 import 'weather_display.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 
-void main() => runApp(new MyApp());
+void main() async {
+  final FirebaseApp app = FirebaseStorage.instance.app;
+  FileStorage.initialize(app);
+
+  runApp(new MyApp());
+}
 
 class MyApp extends StatelessWidget {
-
   TextTheme _buildTextTheme(TextTheme base) {
     return base.copyWith(
         title: base.title.copyWith(fontWeight: FontWeight.w700),

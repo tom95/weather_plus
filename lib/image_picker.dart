@@ -1,14 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MyImagePicker extends StatefulWidget {
-  final DocumentReference feedItemReference;
+  final ValueNotifier<File> imageNotifier;
 
-  MyImagePicker(this.feedItemReference);
+  MyImagePicker(this.imageNotifier);
 
   @override
   _MyImagePickerState createState() => new _MyImagePickerState();
@@ -27,6 +26,8 @@ class _MyImagePickerState extends State<MyImagePicker> {
     setState(() {
       _image = image;
     });
+
+    this.widget.imageNotifier.value = image;
   }
 
   @override
