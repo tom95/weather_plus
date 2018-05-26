@@ -24,7 +24,7 @@ Future<WeatherInformation> fetchWeatherInformation() {
 class WeatherDisplay extends StatelessWidget {
   Widget _buildTemperature(BuildContext context, WeatherInformation data) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20.0, 12.0, 20.0, 12.0),
+      padding: const EdgeInsets.all(20.0),
       child: new Row(
           mainAxisAlignment: MainAxisAlignment.center,
 
@@ -44,11 +44,11 @@ class WeatherDisplay extends StatelessWidget {
     return Expanded(child: Container(
       decoration: BoxDecoration(color: color),
       child: new Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 18.0, horizontal: 0.0),
         child: Column(
           children: <Widget>[
-            Text(value, style: Theme.of(context).textTheme.title),
-            Text(title, style: Theme.of(context).textTheme.subhead),
+            Text(value, style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
+            Text(title, style: Theme.of(context).textTheme.body1.copyWith(color: Colors.white)),
           ],
         ),
       ),
@@ -63,6 +63,8 @@ class WeatherDisplay extends StatelessWidget {
         _buildCurrentBox(context, "Temperature", "22°C", Colors.green[400]),
         VerticalDivider(width: 1.0),
         _buildCurrentBox(context, "Wind", "3km/h", Colors.green[400]),
+        VerticalDivider(width: 1.0),
+        _buildCurrentBox(context, "Rain", "10%", Colors.green[400]),
       ],
     );
   }

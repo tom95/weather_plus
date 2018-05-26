@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_plus/feed.dart';
 import 'weather_display.dart';
 
 void main() => runApp(new MyApp());
@@ -16,9 +17,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Weather Plus',
       theme: _buildTheme(ThemeData.light()),
-      home: new MyHomePage(title: 'Flutter Page'),
+      home: new MyHomePage(title: 'Weather Plus'),
+      // home: Feed(),
     );
   }
 }
@@ -68,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
+        leading: Icon(Icons.wb_sunny),
       ),
       body: new Center(
         // Center is a layout widget. It takes a single child and positions it
