@@ -22,16 +22,26 @@ class WeatherInformation {
   }
 }
 
-Future<WeatherInformation> fetchWeatherInformation() async {
-    // Hard coded to Potsdam location
+Future<WeatherInformation> fetchWeatherInformation(double latitude, double longitude) async {
     final apiKey = config.openWeatherMapAPIKey;
-    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=52&lon=13&appid=' + apiKey);
+    final response = await http.get('https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey');
     final responseJson = json.decode(response.body);
 
     return new WeatherInformation.fromJson(responseJson);
 }
 
-class WeatherDisplay extends StatelessWidget {
+class WeatherDisplay extends StatefulWidget {
+  final double latitude;
+  final double longitude;
+
+  WeatherDisplay({Key key, this.latitude, this.longitude}) : super(key: key);
+
+  @override
+  _WeatherDisplayState createState() => _WeatherDisplayState();
+}
+
+class _WeatherDisplayState extends State<WeatherDisplay> {
+
   Widget _buildTemperature(BuildContext context, WeatherInformation data) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -82,7 +92,7 @@ class WeatherDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<WeatherInformation>(
-      future: fetchWeatherInformation(),
+      future: fetchWeatherInformation(widget.latitude, widget.longitude),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());

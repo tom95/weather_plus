@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:weather_plus/feed.dart';
 import 'weather_display.dart';
-import 'problem_action_display.dart';
+import 'package:location/location.dart';
+import 'dart:async';
 
 void main() => runApp(new MyApp());
 
@@ -48,6 +50,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  Future<Map<String,double>> geoLocate() async {
+    try {
+      return await new Location().getLocation;
+    } on PlatformException {
+      return Future.error("Acquiring location data was not possible :(");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -61,19 +71,27 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text(widget.title, style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
         leading: Icon(Icons.wb_sunny, color: Colors.white),
       ),
-      body: ListView(
-          children: <Widget>[
-            WeatherDisplay(),
-            Feed(),
-          ],
-    ),
+      body: FutureBuilder<Map<String,double>>(
+        future: geoLocate(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          }
+          if (snapshot.hasData) {
+            return ListView(
+              children: <Widget>[
+                WeatherDisplay(latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']),
+                Feed(),
+              ]);
+          }
+          return Center(child: CircularProgressIndicator());
+        }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addTopic,
-        shape: StadiumBorder(),
         tooltip: 'Increment',
         label: Text('Topic'.toUpperCase()),
         icon: new Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
