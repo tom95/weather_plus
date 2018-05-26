@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_plus/feed.dart';
 import 'weather_display.dart';
+import 'problem_action_display.dart';
 
 void main() => runApp(new MyApp());
 
@@ -90,7 +91,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            WeatherDisplay(),
+            ProblemActionDisplay(),
             new Text(
               'You have pushed the button this many times:',
             ),
