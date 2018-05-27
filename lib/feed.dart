@@ -15,15 +15,11 @@ class Feed extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) return new Text('Loading...');
 
-        var columnChildren = snapshot.data.documents
-            .where((topic) {
-              return true;/*
-          return topic['latitude'].toString().isNotEmpty
-              && topic['longitude'].toString().isNotEmpty
-              && double.parse(topic['latitude']) <= latlng.latitude.ceil()
-              && double.parse(topic['latitude']) >= latlng.latitude.floor()
-              && double.parse(topic['longitude']) <= latlng.longitude.ceil()
-              && double.parse(topic['longitude']) <= latlng.longitude.floor();*/
+        var topics = snapshot.data.documents.where((topic) {
+          return topic['latitude'] != null && topic['latitude'] != ""
+              && topic['longitude'] != null && topic['longitude'] != ""
+              && (double.parse(topic['latitude']) - latlng.latitude).abs() <= 0.1
+              && (double.parse(topic['longitude']) - latlng.longitude).abs() <= 0.1;
         })
             .map((DocumentSnapshot document) {
           return GestureDetector(
@@ -71,11 +67,11 @@ class Feed extends StatelessWidget {
           );
         });
 
-        if (columnChildren.isEmpty) {
+        if (topics.isEmpty) {
           return new Text('Es sind keine Hinweise für diesen Ort vorhanden.');
         }
 
-        return new Column(children: columnChildren.toList());
+        return new Column(children: topics.toList());
       },
     );
   }
