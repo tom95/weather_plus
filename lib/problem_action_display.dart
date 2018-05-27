@@ -12,7 +12,7 @@ class ProblemActionDisplay extends StatefulWidget {
 }
 
 class ProblemActionDisplayState extends State<ProblemActionDisplay> {
-  List<bool> itemsExpanded = <bool>[false, false, false];
+  List<bool> itemsExpanded = <bool>[true, false, false];
 
   @override
   Widget build(BuildContext context) {
