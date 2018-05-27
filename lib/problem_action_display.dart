@@ -46,7 +46,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
               padding: const EdgeInsets.all(12.0),
               child: new Align(
                   alignment: Alignment.centerLeft,
-                  child: MarkdownBody(data: (widget.feedItem.data['problem'] ?? '')))
+                  child: MarkdownBody(data: (widget.feedItem.data['tips'] ?? '')))
             ),
             isExpanded: itemsExpanded[0],
           ),
@@ -93,7 +93,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
               padding: const EdgeInsets.all(12.0),
               child: new Align(
                   alignment: Alignment.centerLeft,
-                  child: new Text(widget.feedItem.data['action'] ?? '', style: continuousTextStyle)),
+                  child: new MarkdownBody(data: (widget.feedItem.data['action'] ?? ''))),
             ),
             isExpanded: itemsExpanded[2],
           ),
