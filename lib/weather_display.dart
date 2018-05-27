@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'config.dart' as config;
+import 'my_flutter_app_icons.dart' as weather_icons;
 
 class WeatherInformation {
   final int degrees;
@@ -97,7 +98,9 @@ class WeatherDisplay extends StatelessWidget {
             Expanded(child: Text(data.degrees.toString() + "°C", style: Theme.of(context).textTheme.display3)),
             new Padding(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
-              child: Icon(Icons.wb_sunny, size: 48.0, color: Theme.of(context).textTheme.display3.color),
+              child: Icon(data.description == 'clear sky' ? weather_icons.MyFlutterApp.sun : weather_icons.MyFlutterApp.cloud_sun,
+                  size: 48.0,
+                  color: Theme.of(context).textTheme.display3.color),
             ),
             Text(capitalizeWords(data.description), style: Theme.of(context).textTheme.headline),
           ]),

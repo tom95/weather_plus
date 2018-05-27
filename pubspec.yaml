@@ -62,3 +62,6 @@ flutter:
            weight: 700
          - asset: fonts/Raleway-Black.ttf
            weight: 900
+     - family: MyFlutterApp
+       fonts:
+        - asset: fonts/MyFlutterApp.ttf
