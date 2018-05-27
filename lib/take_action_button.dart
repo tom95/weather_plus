@@ -14,7 +14,7 @@ class TakeActionButton extends StatelessWidget {
     // TODO handle error case
   }
 
-  void _take_action(context) {
+  void _takeAction(context) {
     showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
       return ListView(
         children: <Widget>[
@@ -60,7 +60,7 @@ class TakeActionButton extends StatelessWidget {
   @override
   build(BuildContext context) {
     return RaisedButton.icon(
-        onPressed: (){_take_action(context);},
+        onPressed: (){_takeAction(context);},
         icon: const Icon(Icons.gavel, size: 18.0),
         label: Text('Take Action Now!', style: new TextStyle(fontWeight: FontWeight.bold))
     );

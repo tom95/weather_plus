@@ -22,6 +22,46 @@ class WeatherInformation {
   }
 }
 
+Future<int> fetchAirPollutionInformation(double latitude, double longitude) async {
+  final apiKey = config.aqicnAPIKey;
+  final response = await http.get('https://api.waqi.info/feed/geo:$latitude;$longitude/?token=$apiKey');
+  return json.decode(response.body)["data"]["aqi"];
+}
+
+const POSITIVE_COLOR = Color(0xFFAED581);
+const NEGATIVE_COLOR = Color(0xFFFFB94E);
+const TERRIBLE_COLOR = Color(0xFFE65400);
+
+Color colorForAQI(int aqi) {
+  if (aqi < 100) {
+    return POSITIVE_COLOR;
+  } else if (aqi < 150) {
+    return NEGATIVE_COLOR;
+  } else {
+    return TERRIBLE_COLOR;
+  }
+}
+
+Color colorForTemperature(int degrees) {
+  if (degrees < 30) {
+    return POSITIVE_COLOR;
+  } else if (degrees < 40) {
+    return NEGATIVE_COLOR;
+  } else {
+    return TERRIBLE_COLOR;
+  }
+}
+
+Color colorForWindSpeed(double speed) {
+  if (speed < 17.2) { // above this is considered a storm
+    return POSITIVE_COLOR;
+  } else if (speed < 28.5){ // above this is considered hurricane-like
+    return NEGATIVE_COLOR;
+  } else {
+    return TERRIBLE_COLOR;
+  }
+}
+
 Future<WeatherInformation> fetchWeatherInformation(double latitude, double longitude) async {
     final apiKey = config.openWeatherMapAPIKey;
     final response = await http.get('https://api.openweathermap.org/data/2.5/weather?units=metric&lat=$latitude&lon=$longitude&appid=$apiKey');
@@ -79,14 +119,14 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
     ));
   }
 
-  Widget _buildCurrentSituation(BuildContext context, WeatherInformation data) {
+  Widget _buildCurrentSituation(BuildContext context, WeatherInformation weather, int aqi) {
     return Row(
       children: <Widget>[
-        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFB94E)),
+        _buildCurrentBox(context, "Air Pollution", aqi.toString() + "AQI", colorForAQI(aqi)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFAED581)),
+        _buildCurrentBox(context, "Temperature", weather.degrees.toString() + "°C", colorForTemperature(weather.degrees)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFAED581)),
+        _buildCurrentBox(context, "Wind", weather.windSpeed.toString() + "km/h", colorForWindSpeed(weather.windSpeed)),
         VerticalDivider(width: 1.0),
         _buildCurrentBox(context, "Rain", "10%", const Color(0xFFAED581)),
       ],
@@ -95,8 +135,11 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<WeatherInformation>(
-      future: fetchWeatherInformation(widget.latitude, widget.longitude),
+    return FutureBuilder<List>(
+      future: Future.wait([
+        fetchWeatherInformation(widget.latitude, widget.longitude),
+        fetchAirPollutionInformation(widget.latitude, widget.longitude)
+      ]),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
@@ -104,9 +147,9 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
         if (snapshot.hasData) {
           return Column(
             children: <Widget>[
-              _buildTemperature(context, snapshot.data),
+              _buildTemperature(context, snapshot.data[0]),
               Divider(height: 1.0),
-              _buildCurrentSituation(context, snapshot.data),
+              _buildCurrentSituation(context, snapshot.data[0], snapshot.data[1]),
               Divider(height: 1.0)
             ],
           );

@@ -1,2 +1,3 @@
 String openWeatherMapAPIKey = 'your-key';
 String thunderForestMapAPIKey = 'your-key';
+String aqicnAPIKey = 'your-key';
