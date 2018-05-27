@@ -25,7 +25,13 @@ class WeatherInformation {
 Future<int> fetchAirPollutionInformation(double latitude, double longitude) async {
   final apiKey = config.aqicnAPIKey;
   final response = await http.get('https://api.waqi.info/feed/geo:$latitude;$longitude/?token=$apiKey');
-  return json.decode(response.body)["data"]["aqi"];
+  final jsonResponse = json.decode(response.body);
+
+  if (jsonResponse == null) {
+    return Future.error("Whoops, AQICN had a hickup!");
+  }
+
+  return jsonResponse["data"]["aqi"];
 }
 
 const POSITIVE_COLOR = Color(0xFFAED581);
@@ -122,7 +128,7 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   Widget _buildCurrentSituation(BuildContext context, WeatherInformation weather, int aqi) {
     return Row(
       children: <Widget>[
-        _buildCurrentBox(context, "Air Pollution", aqi.toString() + "AQI", colorForAQI(aqi)),
+        _buildCurrentBox(context, "Air Pollution", aqi.toString() + " AQI", colorForAQI(aqi)),
         VerticalDivider(width: 1.0),
         _buildCurrentBox(context, "Temperature", weather.degrees.toString() + "°C", colorForTemperature(weather.degrees)),
         VerticalDivider(width: 1.0),
@@ -157,7 +163,7 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
 
         return new Padding(
           padding: const EdgeInsets.all(20.0),
-          child: new CircularProgressIndicator(),
+          child: Center(child: new CircularProgressIndicator()),
         );
       },
     );

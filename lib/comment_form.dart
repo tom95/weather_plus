@@ -78,13 +78,17 @@ class _CommentFormState extends State<CommentForm> {
               ),
               onSaved: (String value) {
                 commentText = value;
-                },
+              },
               validator: _validateText,
               maxLines: 3,
             ),
-            new MyImagePicker(imageNotifier),
-            Center(
-              child: new RaisedButton(
+            new Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: new MyImagePicker(imageNotifier),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: new OutlineButton(
                 child: const Text('Submit'),
                 onPressed: _handleSubmitted,
               ),
