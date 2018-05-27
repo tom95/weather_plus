@@ -21,13 +21,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   TextTheme _buildTextTheme(TextTheme base) {
     return base
-        .copyWith()
-        .apply(fontFamily: 'Open Sans')
-        .copyWith(
-          title: base.title.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
-          display3: base.display3.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
-          headline: base.headline.copyWith(fontFamily: 'Open Sans', fontSize: 18.0)
-        );
+      .copyWith()
+      .apply(fontFamily: 'Open Sans')
+      .copyWith(
+        title: base.title.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
+        display3: base.display3.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
+        headline: base.headline.copyWith(fontFamily: 'WWF', fontSize: 22.0),
+        caption: base.caption.copyWith(fontWeight: FontWeight.normal, fontSize: 16.0, fontFamily: 'WWF'),
+      );
   }
 
   ThemeData _buildTheme(ThemeData base) {
@@ -125,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var drawerChildren = <Widget>[
       new UserAccountsDrawerHeader(
-        accountName: Text(locations[0]['contactName']),
-        accountEmail: Text(locations[0]['email']),
+        accountName: Text(locations[0]['contactName'] ?? ''),
+        accountEmail: Text(locations[0]['email'] ?? ''),
         currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage(locations[0]['avatarUrl']),
         ),
         margin: EdgeInsets.zero,
@@ -149,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> {
       padding: const EdgeInsets.all(8.0),
       child: RaisedButton.icon(
           onPressed: _add_location,
-          label: Text('Add Location'),
+          label: Text('Add Location'.toUpperCase()),
           icon: Icon(Icons.add_location)),
     ));
 

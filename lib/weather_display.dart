@@ -112,7 +112,7 @@ class WeatherDisplay extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Text(value, style: Theme.of(context).textTheme.title.copyWith(color: Colors.black54)),
-            Text(title, style: Theme.of(context).textTheme.body1.copyWith(color: Colors.black54)),
+            Text(title, style: Theme.of(context).textTheme.caption.copyWith(color: Colors.black54)),
           ],
         ),
       ),
