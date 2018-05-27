@@ -1,22 +1,57 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share/share.dart';
+
 
 class TakeActionButton extends StatelessWidget {
 
   TakeActionButton();
 
+  void _openUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    }
+    // TODO handle error case
+  }
+
   void _take_action(context) {
     showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
-      return new Container(
-          child: new Padding(
-              padding: const EdgeInsets.all(32.0),
-              child: new Text('This is the modal bottom sheet. Click anywhere to dismiss.',
-                  textAlign: TextAlign.center,
-                  style: new TextStyle(
-                      color: Theme.of(context).accentColor,
-                      fontSize: 24.0
-                  )
-              )
-          )
+      return ListView(
+        children: <Widget>[
+          ListTile(
+            leading: Icon(Icons.email),
+            title: Text('Contact your Local Governor'),
+            subtitle: Text('via Bundestag-Kontakt'),
+            onTap: () {
+              _openUrl('https://www.bundestag.de/service/formular/contactform?mdbId=523480');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.offline_bolt),
+            title: Text('Contact Owner of Closest Coal Plant'),
+            subtitle: Text('owned by Vattenfall'),
+            onTap: () {
+              _openUrl('https://www.vattenfall.de/service/kontakt');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.nature),
+            title: Text('Support Reforestation'),
+            subtitle: Text('offset the damage'),
+            onTap: () {
+              _openUrl('https://www.arkive.org/donate.html');
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.share),
+            title: Text('Share With Friends'),
+            subtitle: Text('spread awareness'),
+            onTap: () {
+              // TODO deeplink into app/its web equivalent
+              Share.share('http://example.com');
+            },
+          ),
+        ],
       );
     });
 
