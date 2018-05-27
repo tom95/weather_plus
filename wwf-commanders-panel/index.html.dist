@@ -28,18 +28,33 @@
     querySnapshot.forEach((doc) => {
         var $input = $("<input class=\"mb-3 title form-control\" placeholder=\"Title\" type=\"text\" />");
         var $votes = $("<input class=\"mb-3 votes form-control\" placeholder=\"Votes\" type=\"number\" />");
-        var $problem = $("<textarea rows=\"1\" class=\"mb-3 problem form-control\"></textarea>");
+        var $lat = $("<input class=\"mb-3 lat form-control\" placeholder=\"Lat\" type=\"text\" />");
+        var $lon = $("<input class=\"mb-3 lon form-control\" placeholder=\"Lon\" type=\"text\" />");
+        var $tips = $("<textarea rows=\"1\" class=\"mb-3 tips form-control\" placeholder=\"Tips\"></textarea>");
+        var $problem = $("<textarea rows=\"1\" class=\"mb-3 problem form-control\" placeholder=\"Problem\"></textarea>");
+        var $action = $("<textarea rows=\"1\" class=\"mb-3 action form-control\" placeholder=\"Action\"></textarea>");
         var $button = $("<button class=\"btn btn-default\" type=\"button\">Update!</button>")
-        $problem.append(doc.data()['problem']);
+        $tips.text(doc.data()['tips']);
+        $problem.text(doc.data()['problem']);
+        $action.text(doc.data()['action']);
         $input.val(doc.data()['title']);
         $votes.val(doc.data()['votes']);
+        $lat.val(doc.data()['latitude']);
+        $lon.val(doc.data()['longitude']);
+
         var $div = $('<div class="mb-5 mt-5"></div>');
         $div.append($input);
         $div.append($votes);
+        $div.append($lat);
+        $div.append($lon);
+        $div.append($tips);
         $div.append($problem);
+        $div.append($action);
         $div.append($button);
         $('.container').append($div);//console.log(`${doc.id} => ${doc.data()}`);
+        autosize($tips);
         autosize($problem);
+        autosize($action);
         $button.click(() => {
             console.log(doc);
             const docRef = doc.ref;
@@ -51,9 +66,13 @@
 
                     const title = $button.parent().find(".title").val();
                     const votes = $button.parent().find(".votes").val();
+                    const lat =  parseFloat($button.parent().find(".lat").val());
+                    const lon =  parseFloat($button.parent().find(".lon").val());
+                    const tips = $button.parent().find(".tips").val();
                     const problem = $button.parent().find(".problem").val();
+                    const action = $button.parent().find(".action").val();
 
-                    transaction.update(docRef, { title: title, votes: votes, problem: problem });
+                    transaction.update(docRef, { title: title, votes: votes, problem: problem, tips: tips, action: action, latitude: lat, longitude: lon });
                 });
             }).then(function() {
                 console.log("Transaction successfully committed!");
