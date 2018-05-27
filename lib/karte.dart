@@ -15,10 +15,10 @@ class Karte extends StatefulWidget {
 }
 
 class _KarteState extends State<Karte> {
-  final Random rng = new Random();
 
   @override
   build(BuildContext context) {
+    Random rng = new Random(widget.latLng.hashCode);
     List<Marker> markers = [];
 
     for (int i = 0; i < 8; i++) {
