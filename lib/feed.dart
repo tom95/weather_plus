@@ -16,10 +16,10 @@ class Feed extends StatelessWidget {
         if (!snapshot.hasData) return new Text('Loading...');
 
         var topics = snapshot.data.documents.where((topic) {
-          return topic['latitude'] != null && topic['latitude'] != ""
-              && topic['longitude'] != null && topic['longitude'] != ""
-              && (double.parse(topic['latitude']) - latlng.latitude).abs() <= 0.1
-              && (double.parse(topic['longitude']) - latlng.longitude).abs() <= 0.1;
+          return topic['latitude'] != null
+              && topic['longitude'] != null
+              && (topic['latitude'] - latlng.latitude).abs() <= 0.1
+              && (topic['longitude'] - latlng.longitude).abs() <= 0.1;
         })
             .map((DocumentSnapshot document) {
           return GestureDetector(
