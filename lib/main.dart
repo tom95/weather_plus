@@ -117,6 +117,10 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  _add_location() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     var drawerChildren = <Widget>[
@@ -141,6 +145,13 @@ class _MyHomePageState extends State<MyHomePage> {
         },
       ));
     }
+    drawerChildren.add(new Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: RaisedButton.icon(
+          onPressed: _add_location,
+          label: Text('Add Location'),
+          icon: Icon(Icons.add_location)),
+    ));
 
     return new Scaffold(
       appBar: new AppBar(
@@ -166,7 +177,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
                 new Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Feed(loc),
+                  child: new Padding(
+                    padding: const EdgeInsets.only(bottom: 60.0),
+                    child: Feed(loc),
+                  ),
                 ),
               ]);
           }
