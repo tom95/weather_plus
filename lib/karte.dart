@@ -5,12 +5,17 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
 import 'config.dart' as config;
 
-class Karte extends StatelessWidget {
-  final double latitude;
-  final double longitude;
-  final Random rng = new Random();
+class Karte extends StatefulWidget {
+  final LatLng latLng;
 
-  Karte({Key key, this.latitude, this.longitude}) : super(key: key);
+  Karte({Key key, this.latLng}) : super(key: key);
+
+  @override
+  _KarteState createState() => new _KarteState();
+}
+
+class _KarteState extends State<Karte> {
+  final Random rng = new Random();
 
   @override
   build(BuildContext context) {
@@ -20,7 +25,10 @@ class Karte extends StatelessWidget {
       markers.add(new Marker(
         width: 40.0,
         height: 40.0,
-        point: new LatLng(latitude + 0.1 * (0.5 - rng.nextDouble()), longitude + 0.3 * (0.5 - rng.nextDouble())),
+        point: new LatLng(
+            widget.latLng.latitude + 0.1 * (0.5 - rng.nextDouble()),
+            widget.latLng.longitude + 0.3 * (0.5 - rng.nextDouble())
+        ),
         builder: (ctx) => new Container(
           child: new Icon(Icons.location_on, size: 40.0, color: Theme.of(context).accentColor),
         ),
@@ -30,15 +38,15 @@ class Karte extends StatelessWidget {
     markers.add(new Marker(
       width: 50.0,
       height: 50.0,
-      point: new LatLng(latitude, longitude),
+      point: widget.latLng,
       builder: (ctx) => new Container(
         child: new Icon(Icons.location_on, size: 50.0, color: Theme.of(context).primaryColor),
       ),
     ));
 
-    return new FlutterMap(
+    var map = new FlutterMap(
       options: new MapOptions(
-        center: new LatLng(latitude, longitude),
+        center: widget.latLng,
         zoom: 10.0,
       ),
       layers: [
@@ -55,5 +63,7 @@ class Karte extends StatelessWidget {
         ),
       ],
     );
+
+    return map;
   }
 }
