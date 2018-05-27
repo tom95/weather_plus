@@ -90,7 +90,10 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListView(
               children: <Widget>[
                 WeatherDisplay(latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']),
-                Feed(),
+                new Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Feed(),
+                ),
               ]);
           }
           return Center(child: CircularProgressIndicator());

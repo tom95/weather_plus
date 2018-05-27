@@ -78,13 +78,13 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   Widget _buildCurrentSituation(BuildContext context, WeatherInformation data) {
     return Row(
       children: <Widget>[
-        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFA926)),
+        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFB94E)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFAED581)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFAED581)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFAED581)),
       ],
     );
   }
