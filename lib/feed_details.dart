@@ -80,7 +80,8 @@ class _FeedDetailsState extends State<FeedDetails> {
       floatingActionButton: !hasVoted ? FloatingActionButton.extended(
           onPressed: () { _vote(context, widget.feedItem.reference); },
           icon: const Icon(Icons.bug_report),
-          label: Text('Confirm', style: new TextStyle(fontWeight: FontWeight.bold))
+          foregroundColor: Colors.black,
+          label: Text('Confirm'.toUpperCase())
       ) : Container(),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
