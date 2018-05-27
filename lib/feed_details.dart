@@ -15,8 +15,11 @@ class FeedDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('huhuhu'),
-          leading: Icon(Icons.wb_sunny),
+          title: new Text(this.feedItem.data['title']),
+          leading: new GestureDetector(
+            child: Icon(Icons.arrow_back),
+            onTap: () => Navigator.pop(context),
+          ),
         ),
         body: new Center(
           child: new ListView(

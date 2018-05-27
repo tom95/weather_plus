@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'Weather Plus',
       theme: _buildTheme(ThemeData.light()),
       home: new MyHomePage(title: 'Weather Plus'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
