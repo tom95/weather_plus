@@ -48,9 +48,9 @@ class _FeedDetailsState extends State<FeedDetails> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text(widget.feedItem.data['title']),
         iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
         titleSpacing: 0.0,
+        title: new Text(widget.feedItem.data['title'], style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
         leading: new GestureDetector(
           child: Icon(Icons.arrow_back),
           onTap: () => Navigator.pop(context),

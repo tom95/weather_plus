@@ -18,7 +18,15 @@ class TakeActionButton extends StatelessWidget {
     showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
       return ListView(
         children: <Widget>[
-          ListTile(
+            ListTile(
+              leading: Icon(Icons.edit),
+              title: Text('Sign the Petition'),
+              subtitle: Text('Show Strength in Numbers!'),
+              onTap: () {
+              _openUrl('https://beyond-coal.eu/take-action/');
+              },
+            ),
+            ListTile(
             leading: Icon(Icons.email),
             title: Text('Contact your Local Governor'),
             subtitle: Text('via Bundestag-Kontakt'),

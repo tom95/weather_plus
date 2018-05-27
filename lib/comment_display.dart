@@ -17,7 +17,10 @@ class CommentDisplay extends StatelessWidget {
                 var cardChildren = <Widget>[
                   ListTile(
                     leading: Icon(Icons.comment),
-                    title: Text(document['text']),
+                    title: new Padding(
+                      padding: const EdgeInsets.fromLTRB(0.0, 22.0, 22.0, 22.02),
+                      child: Text(document['text']),
+                    ),
                   ),
                 ];
 
@@ -26,7 +29,7 @@ class CommentDisplay extends StatelessWidget {
                   cardChildren.add(
                     new Container(
                       height: 200.0,
-                      margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                      margin: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 24.0),
                       child: new Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F"
                         + imageName + "?alt=media"))
                   );
