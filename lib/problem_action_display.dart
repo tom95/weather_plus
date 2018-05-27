@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+TextStyle continuousTextStyle = new TextStyle(height: 1.5, fontSize: 16.0);
+
 class ProblemActionDisplay extends StatefulWidget {
   final DocumentSnapshot feedItem;
 
@@ -33,7 +35,8 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
             },
             body: new Padding(
               padding: const EdgeInsets.all(8.0),
-              child: new Align(alignment: Alignment.centerLeft,child: new Text(widget.feedItem.data['problem'])),
+              child: new Align(alignment: Alignment.centerLeft,
+                  child: new Text(widget.feedItem.data['problem'], style: continuousTextStyle)),
             ),
             isExpanded: itemsExpanded[0],
           ),
@@ -48,7 +51,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
             },
             body: new Padding(
               padding: const EdgeInsets.all(8.0),
-              child: new Align(alignment: Alignment.centerLeft,child: new Text(widget.feedItem.data['action'])),
+              child: new Align(alignment: Alignment.centerLeft,child: new Text(widget.feedItem.data['action'], style: continuousTextStyle)),
             ),
             isExpanded: itemsExpanded[1],
           ),
