@@ -48,6 +48,11 @@ flutter:
      - family: WWF
        fonts:
          - asset: fonts/WWF.ttf
+     - family: Open Sans
+       fonts:
+         - asset: fonts/OpenSans-Regular.ttf
+         - asset: fonts/OpenSans-Bold.ttf
+           weight: 700
      - family: Raleway
        fonts:
          - asset: fonts/Raleway-Regular.ttf

@@ -70,7 +70,7 @@ class TakeActionButton extends StatelessWidget {
     return RaisedButton.icon(
         onPressed: (){_takeAction(context);},
         icon: const Icon(Icons.gavel, size: 18.0),
-        label: Text('Take Action Now!', style: new TextStyle(fontWeight: FontWeight.bold))
+        label: Text('Take Action Now'.toUpperCase(), style: new TextStyle(fontWeight: FontWeight.bold))
     );
   }
 }
