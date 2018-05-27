@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_plus/comment_display.dart';
 import 'package:weather_plus/comment_form.dart';
 import 'package:weather_plus/problem_action_display.dart';
+import 'package:weather_plus/take_action_button.dart';
 
 class FeedDetails extends StatefulWidget {
 
@@ -60,6 +61,10 @@ class _FeedDetailsState extends State<FeedDetails> {
             child: new ListView(
                 children: <Widget>[
                   new ProblemActionDisplay(feedItem: widget.feedItem),
+                  new Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: new TakeActionButton(),
+                  ),
                   new CommentDisplay(widget.feedItem.reference),
                   new Card(
                       margin: const EdgeInsetsDirectional.fromSTEB(

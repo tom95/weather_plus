@@ -12,3 +12,4 @@ build/
 /android/app/google-services.json
 
 /lib/config.dart
+/wwf-commanders-panel/index.html
