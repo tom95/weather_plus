@@ -40,6 +40,10 @@ class WeatherDisplay extends StatefulWidget {
   _WeatherDisplayState createState() => _WeatherDisplayState();
 }
 
+String capitalizeWords(String w) {
+  return w.split(" ").map((w) => w[0].toUpperCase() + w.substring(1)).join(" ");
+}
+
 class _WeatherDisplayState extends State<WeatherDisplay> {
 
   Widget _buildTemperature(BuildContext context, WeatherInformation data) {
@@ -55,7 +59,7 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 12.0, 0.0),
               child: Icon(Icons.wb_sunny, size: 48.0, color: Theme.of(context).textTheme.display3.color),
             ),
-            Text(data.description[0].toUpperCase() + data.description.substring(1), style: Theme.of(context).textTheme.headline),
+            Text(capitalizeWords(data.description), style: Theme.of(context).textTheme.headline),
           ]),
     );
   }
@@ -78,13 +82,13 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   Widget _buildCurrentSituation(BuildContext context, WeatherInformation data) {
     return Row(
       children: <Widget>[
-        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFA926)),
+        _buildCurrentBox(context, "Air Pollution", "20%", const Color(0xFFFFB94E)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Temperature", data.degrees.toString() + "°C", const Color(0xFFAED581)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Wind", data.windSpeed.toString() + "km/h", const Color(0xFFAED581)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFC5E1A5)),
+        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFAED581)),
       ],
     );
   }

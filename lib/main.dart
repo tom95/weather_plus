@@ -94,7 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 SizedBox(height: 200.0, child: Karte(
                     latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']
                 )),
-                Feed(),
+                new Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Feed(),
+                ),
               ]);
           }
           return Center(child: CircularProgressIndicator());
