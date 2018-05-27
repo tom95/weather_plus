@@ -51,7 +51,7 @@ class Feed extends StatelessWidget {
                                 children: snapshot.data.documents.map((document) {
                                   return new Padding(
                                     padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 0.0),
-                                    child: Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F${document['image']}?alt=media",
+                                    child: Image.network(document['image'],
                                         width: 32.0,
                                         height: 32.0,
                                         fit: BoxFit.cover),

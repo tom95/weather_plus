@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -30,34 +31,41 @@ class _CommentFormState extends State<CommentForm> {
     return null;
   }
 
-  void _uploadImage(File image, String filename) async {
+  Future<Uri> _uploadImage(File image, String filename) async {
     final StorageReference ref = FileStorage.instance().ref()
         .child('comment-images') // Folder
         .child(filename);      // File name
     final StorageUploadTask uploadTask = ref.putFile(image);
 
-    await uploadTask.future;
+    return (await uploadTask.future).downloadUrl;
+  }
+
+  Future<String> _saveComment() async {
+    String imageName;
+    if (imageNotifier.value != null) {
+      Uuid uuid = new Uuid();
+      imageName = uuid.v4() + '.jpg';
+      Uri imageUri = await _uploadImage(imageNotifier.value, imageName);
+      imageName = imageUri.toString();
+    }
+
+    return imageName;
   }
 
   void _handleSubmitted() {
     final FormState form = _formKey.currentState;
     if (form.validate()) {
       form.save();
-      var comment = Firestore.instance.collection("comments").document();
 
-      String imageName;
-      if (imageNotifier.value != null) {
-        Uuid uuid = new Uuid();
-        imageName = uuid.v4() + '.jpg';
-        _uploadImage(imageNotifier.value, imageName);
-      }
+      _saveComment().then((imageUrl) {
+        var comment = Firestore.instance.collection("comments").document();
+        comment.setData({'text': commentText, 'feedItem': widget.feedItemReference, 'image': imageUrl});
 
-      comment.setData({'text': commentText, 'feedItem': widget.feedItemReference, 'image': imageName});
-
-      Scaffold.of(context).showSnackBar(new SnackBar(
-        content: new Text("Thanks for your comment!"),
-      ));
-      form.reset();
+        Scaffold.of(context).showSnackBar(new SnackBar(
+          content: new Text("Thanks for your comment!"),
+        ));
+        form.reset();
+      });
     }
   }
 
