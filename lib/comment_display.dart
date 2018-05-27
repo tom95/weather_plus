@@ -25,13 +25,15 @@ class CommentDisplay extends StatelessWidget {
                 if (imageName != null) {
                   cardChildren.add(
                     new Container(
-                        height: 200.0,
-                        child: new Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F"
+                      height: 200.0,
+                      margin: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 24.0),
+                      child: new Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F"
                         + imageName + "?alt=media"))
                   );
                 }
 
                 return Card(
+                  margin: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
                   child: new Column(
                     children: cardChildren
                   )
