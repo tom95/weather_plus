@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
                 new Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Feed(),
+                  child: Feed(snapshot.data),
                 ),
               ]);
           }
