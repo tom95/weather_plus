@@ -1,0 +1,75 @@
+<html>
+<head>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
+<!-- Firebase App is always required and must be first -->
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-app.js"></script>
+
+<!-- Add additional services you want to use -->
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase-firestore.js"></script>
+<script>
+  // Initialize Firebase
+  var config = { /* TODO: Add Credentials */ };
+  firebase.initializeApp(config);
+
+
+  const firestore = firebase.firestore();
+  const settings = {/* your settings... */ timestampsInSnapshots: true};
+  firestore.settings(settings);
+
+  const feedCollection = firestore.collection('feed');
+  feedCollection.get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        var $input = $("<input class=\"mb-3 title form-control\" placeholder=\"Title\" type=\"text\" />");
+        var $votes = $("<input class=\"mb-3 votes form-control\" placeholder=\"Votes\" type=\"number\" />");
+        var $problem = $("<textarea rows=\"1\" class=\"mb-3 problem form-control\"></textarea>");
+        var $button = $("<button class=\"btn btn-default\" type=\"button\">Update!</button>")
+        $problem.append(doc.data()['problem']);
+        $input.val(doc.data()['title']);
+        $votes.val(doc.data()['votes']);
+        var $div = $('<div class="mb-5 mt-5"></div>');
+        $div.append($input);
+        $div.append($votes);
+        $div.append($problem);
+        $div.append($button);
+        $('.container').append($div);//console.log(`${doc.id} => ${doc.data()}`);
+        autosize($problem);
+        $button.click(() => {
+            console.log(doc);
+            const docRef = doc.ref;
+            return firestore.runTransaction(function(transaction) {
+                return transaction.get(docRef).then(function(sfDoc) {
+                    if (!sfDoc.exists) {
+                        throw "Document does not exist!";
+                    }
+
+                    const title = $button.parent().find(".title").val();
+                    const votes = $button.parent().find(".votes").val();
+                    const problem = $button.parent().find(".problem").val();
+
+                    transaction.update(docRef, { title: title, votes: votes, problem: problem });
+                });
+            }).then(function() {
+                console.log("Transaction successfully committed!");
+            }).catch(function(error) {
+                console.log("Transaction failed: ", error);
+            });
+
+        });
+    });
+  });
+
+</script>
+
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container"></div>
+</body>
+</html>

@@ -74,7 +74,7 @@ class _CommentFormState extends State<CommentForm> {
                 border: const OutlineInputBorder(),
                 hintText: 'What is your opinion?',
                 helperText: 'Share your opinions with the community',
-                labelText: 'Comment Text',
+                labelText: 'Your comment ...',
               ),
               onSaved: (String value) {
                 commentText = value;

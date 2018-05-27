@@ -31,10 +31,12 @@ class FeedDetails extends StatelessWidget {
               child: new TakeActionButton(),
             ),
             new CommentDisplay(this.feedItem.reference),
-            new Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: new CommentForm(this.feedItem.reference),
-            ),
+            new Card(
+              margin: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+              child: new Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: new CommentForm(this.feedItem.reference),
+            ))
           ]
         )
       ),
