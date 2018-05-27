@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'contactName': 'Eva Tapir',
       'avatarUrl': 'http://i.pravatar.cc/100?img=26',
       'locationName': 'Peking',
-      'latLng': LatLng(39.9546044,116.4640594),
+      'latLng': LatLng(39.9, 116.3),
+      // 'latLng': LatLng(39.9546044,116.4640594),
       //'latLng': LatLng(39.956800, 116.400528),
     },
   ];
