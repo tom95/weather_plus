@@ -20,10 +20,14 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   TextTheme _buildTextTheme(TextTheme base) {
-    return base.copyWith(
-        title: base.title.copyWith(fontWeight: FontWeight.w700),
-        display3: base.display3.copyWith(fontWeight: FontWeight.w700)
-    ).apply(fontFamily: 'WWF');
+    return base
+        .copyWith()
+        .apply(fontFamily: 'Open Sans')
+        .copyWith(
+          title: base.title.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
+          display3: base.display3.copyWith(fontWeight: FontWeight.normal, fontFamily: 'WWF'),
+          headline: base.headline.copyWith(fontFamily: 'Open Sans', fontSize: 18.0)
+        );
   }
 
   ThemeData _buildTheme(ThemeData base) {
@@ -59,15 +63,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final locations = [
     {
-      'contactName': 'Jane Doe (me)',
-      'avatarUrl': "http://i.pravatar.cc/100?img=5",
+      'contactName': 'Tom (me)',
+      'avatarUrl': "http://tmbe.me/c/avatar.jpeg",
       'locationName': 'Potsdam',
+      'email': 'thetom@theadress.com',
       'latLng': null,
     },
     {
       'contactName': 'Eva Tapir',
       'avatarUrl': 'http://i.pravatar.cc/100?img=26',
       'locationName': 'Peking',
+      'email': 'eva@heradress.com',
       'latLng': LatLng(39.9, 116.3),
       // 'latLng': LatLng(39.9546044,116.4640594),
       //'latLng': LatLng(39.956800, 116.400528),
@@ -115,10 +121,9 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     var drawerChildren = <Widget>[
       new UserAccountsDrawerHeader(
-        accountName: const Text('Jane Doe'),
-        accountEmail: const Text('jane.doe@hpi.de'),
-        currentAccountPicture: const CircleAvatar(
-          backgroundImage: NetworkImage("http://i.pravatar.cc/100?img=5"),
+        accountName: Text(locations[0]['contactName']),
+        accountEmail: Text(locations[0]['email']),
+        currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage(locations[0]['avatarUrl']),
         ),
         margin: EdgeInsets.zero,
       ),
