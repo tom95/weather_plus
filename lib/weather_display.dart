@@ -126,9 +126,9 @@ class WeatherDisplay extends StatelessWidget {
         VerticalDivider(width: 1.0),
         _buildCurrentBox(context, "Temperature", weather.degrees.toString() + "°C", colorForTemperature(weather.degrees)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Wind", weather.windSpeed.toString() + "km/h", colorForWindSpeed(weather.windSpeed)),
+        _buildCurrentBox(context, "Wind", weather.windSpeed.toString() + "m/s", colorForWindSpeed(weather.windSpeed)),
         VerticalDivider(width: 1.0),
-        _buildCurrentBox(context, "Rain", "10%", const Color(0xFFAED581)),
+        _buildCurrentBox(context, "Rain", "30%", const Color(0xFFAED581)),
       ],
     );
   }

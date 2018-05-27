@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return base.copyWith(
         title: base.title.copyWith(fontWeight: FontWeight.w700),
         display3: base.display3.copyWith(fontWeight: FontWeight.w700)
-    ).apply(fontFamily: 'Raleway');
+    ).apply(fontFamily: 'WWF');
   }
 
   ThemeData _buildTheme(ThemeData base) {
