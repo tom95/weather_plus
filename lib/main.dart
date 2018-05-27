@@ -6,6 +6,7 @@ import 'package:weather_plus/feed.dart';
 import 'package:weather_plus/file_storage.dart';
 import 'weather_display.dart';
 import 'package:location/location.dart';
+import 'karte.dart';
 import 'dart:async';
 
 void main() async {
@@ -90,6 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListView(
               children: <Widget>[
                 WeatherDisplay(latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']),
+                SizedBox(height: 200.0, child: Karte(
+                    latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']
+                )),
                 Feed(),
               ]);
           }
