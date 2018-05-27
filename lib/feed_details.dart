@@ -49,6 +49,8 @@ class _FeedDetailsState extends State<FeedDetails> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.feedItem.data['title']),
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
+        titleSpacing: 0.0,
         leading: new GestureDetector(
           child: Icon(Icons.arrow_back),
           onTap: () => Navigator.pop(context),
@@ -72,7 +74,8 @@ class _FeedDetailsState extends State<FeedDetails> {
                       child: new Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: new CommentForm(widget.feedItem.reference),
-                      ))
+                      )),
+                  Container(height: 100.0)
                 ]
             )
         );

@@ -6,6 +6,7 @@ import 'package:latlong/latlong.dart';
 import 'package:weather_plus/feed.dart';
 import 'package:weather_plus/file_storage.dart';
 import 'weather_display.dart';
+import 'comment_form.dart';
 import 'package:location/location.dart';
 import 'karte.dart';
 import 'dart:async';
@@ -72,13 +73,31 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   var currentLocation;
+  var topicTitle;
 
   _MyHomePageState() {
     currentLocation = locations[0];
   }
 
   void _addTopic() {
-
+    showModalBottomSheet<void>(context: context, builder: (BuildContext context) {
+      return ListView(
+        children: <Widget>[
+          new TextField(
+            decoration: const InputDecoration(
+                labelText: 'Topic Title',
+                filled: true
+            ),
+            style: Theme.of(context).textTheme.headline,
+            onChanged: (String value) {
+              setState(() {
+                topicTitle = value;
+              });
+            }),
+          CommentForm(null)
+        ],
+      );
+    });
   }
 
   Future<LatLng> geoLocate() async {
@@ -116,16 +135,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ));
     }
 
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return new Scaffold(
       appBar: new AppBar(
         title: new Text(widget.title, style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
-        leading: Icon(Icons.wb_sunny, color: Colors.white),
+        iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
+        titleSpacing: 0.0,
       ),
       body: FutureBuilder<LatLng>(
         future: currentLocation['latLng'] == null ? geoLocate() : new Future<LatLng>.value(currentLocation['latLng']),
@@ -150,7 +164,6 @@ class _MyHomePageState extends State<MyHomePage> {
         }),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addTopic,
-        tooltip: 'Increment',
         foregroundColor: Colors.black,
         label: Text('Topic'.toUpperCase()),
         icon: new Icon(Icons.add),
