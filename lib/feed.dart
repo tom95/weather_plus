@@ -23,7 +23,7 @@ class Feed extends StatelessWidget {
                 margin: EdgeInsets.all(8.0),
                 child: ListTile(
                   leading: Icon(Icons.cloud),
-                  title: Text(document['title']),
+                  title: Text(document['title'] ?? ''),
                   trailing: Row(children: <Widget>[
                     Text(document['votes'].toString()),
                     Icon(Icons.person)
