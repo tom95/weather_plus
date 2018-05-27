@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 TextStyle continuousTextStyle = new TextStyle(height: 1.5, fontSize: 16.0);
 
@@ -11,7 +12,7 @@ class ProblemActionDisplay extends StatefulWidget {
 }
 
 class ProblemActionDisplayState extends State<ProblemActionDisplay> {
-  List<bool> itemsExpanded = <bool>[false, false, false];
+  List<bool> itemsExpanded = <bool>[false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
               padding: const EdgeInsets.all(12.0),
               child: new Align(
                   alignment: Alignment.centerLeft,
-                  child: new Text(widget.feedItem.data['look_out'] ?? '', style: continuousTextStyle)),
+                  child: MarkdownBody(data: (widget.feedItem.data['problem'] ?? '')))
             ),
             isExpanded: itemsExpanded[0],
           ),
@@ -70,7 +71,7 @@ class ProblemActionDisplayState extends State<ProblemActionDisplay> {
               padding: const EdgeInsets.all(12.0),
               child: new Align(
                 alignment: Alignment.centerLeft,
-                child: new Text(widget.feedItem.data['problem'] ?? '', style: continuousTextStyle)),
+                child: new MarkdownBody(data: (widget.feedItem.data['problem'] ?? ''))),
             ),
             isExpanded: itemsExpanded[1],
           ),
