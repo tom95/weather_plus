@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 import 'package:weather_plus/feed_details.dart';
 
 class Feed extends StatelessWidget {
+  final LatLng latlng;
+
+  Feed(this.latlng);
+
   @override
   build(BuildContext context) {
     return new StreamBuilder<QuerySnapshot>(
@@ -10,9 +15,18 @@ class Feed extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (!snapshot.hasData) return new Text('Loading...');
 
-        return new Column(
-          children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return GestureDetector(
+        var columnChildren = snapshot.data.documents
+            .where((topic) {
+              return true;/*
+          return topic['latitude'].toString().isNotEmpty
+              && topic['longitude'].toString().isNotEmpty
+              && double.parse(topic['latitude']) <= latlng.latitude.ceil()
+              && double.parse(topic['latitude']) >= latlng.latitude.floor()
+              && double.parse(topic['longitude']) <= latlng.longitude.ceil()
+              && double.parse(topic['longitude']) <= latlng.longitude.floor();*/
+        })
+            .map((DocumentSnapshot document) {
+          return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
@@ -31,31 +45,37 @@ class Feed extends StatelessWidget {
                       Icon(Icons.person)
                     ]),
                     subtitle: StreamBuilder<QuerySnapshot>(
-                      stream: Firestore.instance
-                          .collection('comments')
-                          .where("image", isGreaterThan: "")
-                          .where("feedItem", isEqualTo: document.reference).limit(5).snapshots(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData && snapshot.data != null) {
-                          return Row(
-                              children: snapshot.data.documents.map((document) {
-                                return new Padding(
-                                  padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 0.0),
-                                  child: Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F${document['image']}?alt=media",
-                                    width: 32.0,
-                                    height: 32.0,
-                                    fit: BoxFit.cover),
-                                );
-                              }).toList());
-                        } else {
-                          return Container(width: 0.0, height: 0.0);
-                        }
-                      }),
-                    ),
+                        stream: Firestore.instance
+                            .collection('comments')
+                            .where("image", isGreaterThan: "")
+                            .where("feedItem", isEqualTo: document.reference).limit(5).snapshots(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData && snapshot.data != null) {
+                            return Row(
+                                children: snapshot.data.documents.map((document) {
+                                  return new Padding(
+                                    padding: const EdgeInsets.only(right: 8.0, top: 8.0, bottom: 0.0),
+                                    child: Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F${document['image']}?alt=media",
+                                        width: 32.0,
+                                        height: 32.0,
+                                        fit: BoxFit.cover),
+                                  );
+                                }).toList());
+                          } else {
+                            return Container(width: 0.0, height: 0.0);
+                          }
+                        }),
+                  ),
                 ),
-                )
-            );
-          }).toList());
+              )
+          );
+        });
+
+        if (columnChildren.isEmpty) {
+          return new Text('Es sind keine Hinweise für diesen Ort vorhanden.');
+        }
+
+        return new Column(children: columnChildren.toList());
       },
     );
   }
