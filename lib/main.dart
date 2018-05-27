@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:latlong/latlong.dart';
 import 'package:weather_plus/feed.dart';
 import 'package:weather_plus/file_storage.dart';
 import 'weather_display.dart';
@@ -55,14 +56,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final locations = [
+    {
+      'contactName': 'Jane Doe (me)',
+      'avatarUrl': "http://i.pravatar.cc/100?img=5",
+      'locationName': 'Potsdam',
+      'latLng': null,
+    },
+    {
+      'contactName': 'Eva Tapir',
+      'avatarUrl': 'http://i.pravatar.cc/100?img=26',
+      'locationName': 'Peking',
+      'latLng': LatLng(39.9385466, 116.1172746),
+    },
+  ];
+
+  var currentLocation;
+
+  _MyHomePageState() {
+    currentLocation = locations[0];
+  }
 
   void _addTopic() {
 
   }
 
-  Future<Map<String,double>> geoLocate() async {
+  Future<LatLng> geoLocate() async {
     try {
-      return await new Location().getLocation;
+      var location = await new Location().getLocation;
+      return new LatLng(location['latitude'], location['longitude']);
     } on PlatformException {
       return Future.error("Acquiring location data was not possible :(");
     }
@@ -70,6 +92,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var drawerChildren = <Widget>[
+      new UserAccountsDrawerHeader(
+        accountName: const Text('Jane Doe'),
+        accountEmail: const Text('jane.doe@hpi.de'),
+        currentAccountPicture: const CircleAvatar(
+          backgroundImage: NetworkImage("http://i.pravatar.cc/100?img=5"),
+        ),
+        margin: EdgeInsets.zero,
+      ),
+    ];
+    for (var location in locations) {
+      drawerChildren.add(ListTile(
+        title: new Text(location['contactName']),
+        leading: new CircleAvatar(backgroundImage: new NetworkImage(location['avatarUrl'])),
+        trailing: new Text(location['locationName'].toString().toUpperCase(), style: Theme.of(context).textTheme.caption),
+        onTap: () {
+          setState(() {
+            currentLocation = location;
+          });
+          Navigator.pop(context);
+        },
+      ));
+    }
+
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -81,8 +127,8 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text(widget.title, style: Theme.of(context).textTheme.title.copyWith(color: Colors.white)),
         leading: Icon(Icons.wb_sunny, color: Colors.white),
       ),
-      body: FutureBuilder<Map<String,double>>(
-        future: geoLocate(),
+      body: FutureBuilder<LatLng>(
+        future: currentLocation['latLng'] == null ? geoLocate() : new Future<LatLng>.value(currentLocation['latLng']),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
@@ -90,9 +136,9 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             return ListView(
               children: <Widget>[
-                WeatherDisplay(latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']),
+                WeatherDisplay(latitude: snapshot.data.latitude, longitude: snapshot.data.longitude),
                 SizedBox(height: 200.0, child: Karte(
-                    latitude: snapshot.data['latitude'], longitude: snapshot.data['longitude']
+                    latLng: snapshot.data
                 )),
                 new Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -108,6 +154,12 @@ class _MyHomePageState extends State<MyHomePage> {
         foregroundColor: Colors.black,
         label: Text('Topic'.toUpperCase()),
         icon: new Icon(Icons.add),
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: drawerChildren
+        )
       ),
     );
   }
