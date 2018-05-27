@@ -17,16 +17,10 @@ class VoteButton extends StatelessWidget {
 
   @override
   build(BuildContext context) {
-    return new Align(
-      alignment: Alignment.centerRight,
-      child: new Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: RaisedButton.icon(
-          onPressed: _vote,
-          icon: const Icon(Icons.add, size: 18.0),
-          label: Text('This affects me too', style: new TextStyle(fontWeight: FontWeight.bold)),
-        ),
-      ),
+    return FloatingActionButton.extended(
+      onPressed: _vote,
+      icon: const Icon(Icons.add, size: 18.0),
+      label: Text('Confirm', style: new TextStyle(fontWeight: FontWeight.bold))
     );
   }
 }

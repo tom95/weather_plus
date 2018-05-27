@@ -14,28 +14,29 @@ class FeedDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-        appBar: new AppBar(
-          title: new Text(this.feedItem.data['title']),
-          leading: new GestureDetector(
-            child: Icon(Icons.arrow_back),
-            onTap: () => Navigator.pop(context),
-          ),
+      appBar: new AppBar(
+        title: new Text(this.feedItem.data['title']),
+        leading: new GestureDetector(
+          child: Icon(Icons.arrow_back),
+          onTap: () => Navigator.pop(context),
         ),
-        body: new Center(
-          child: new ListView(
-            children: <Widget>[
-              new ProblemActionDisplay(feedItem: feedItem),
-              new VoteButton(this.feedItem.reference),
-              new CommentDisplay(this.feedItem.reference),
-              new Card(
-                margin: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
-                child: new Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: new CommentForm(this.feedItem.reference),
-              ))
-            ]
-          )
+      ),
+      body: new Center(
+        child: new ListView(
+          children: <Widget>[
+            new ProblemActionDisplay(feedItem: feedItem),
+            new CommentDisplay(this.feedItem.reference),
+            new Card(
+              margin: const EdgeInsetsDirectional.fromSTEB(8.0, 8.0, 8.0, 8.0),
+              child: new Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: new CommentForm(this.feedItem.reference),
+            ))
+          ]
         )
+      ),
+      floatingActionButton: new VoteButton(this.feedItem.reference),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
