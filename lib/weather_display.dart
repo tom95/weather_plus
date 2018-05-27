@@ -22,18 +22,6 @@ class WeatherInformation {
   }
 }
 
-Future<int> fetchAirPollutionInformation(double latitude, double longitude) async {
-  final apiKey = config.aqicnAPIKey;
-  final response = await http.get('https://api.waqi.info/feed/geo:$latitude;$longitude/?token=$apiKey');
-  final jsonResponse = json.decode(response.body);
-
-  if (jsonResponse == null || jsonResponse["data"] == null) {
-    return Future.error("Whoops, AQICN had a hickup!");
-  }
-
-  return jsonResponse["data"]["aqi"];
-}
-
 const POSITIVE_COLOR = Color(0xFFAED581);
 const NEGATIVE_COLOR = Color(0xFFFFB94E);
 const TERRIBLE_COLOR = Color(0xFFE65400);
@@ -68,6 +56,18 @@ Color colorForWindSpeed(double speed) {
   }
 }
 
+Future<int> fetchAirPollutionInformation(double latitude, double longitude) async {
+  final apiKey = config.aqicnAPIKey;
+  final response = await http.get('https://api.waqi.info/feed/geo:$latitude;$longitude/?token=$apiKey');
+  final jsonResponse = json.decode(response.body);
+
+  if (jsonResponse == null || jsonResponse["data"] == null) {
+    return Future.error("Whoops, AQICN had a hickup!");
+  }
+
+  return jsonResponse["data"]["aqi"];
+}
+
 Future<WeatherInformation> fetchWeatherInformation(double latitude, double longitude) async {
     final apiKey = config.openWeatherMapAPIKey;
     final response = await http.get('https://api.openweathermap.org/data/2.5/weather?units=metric&lat=$latitude&lon=$longitude&appid=$apiKey');
@@ -76,21 +76,15 @@ Future<WeatherInformation> fetchWeatherInformation(double latitude, double longi
     return new WeatherInformation.fromJson(responseJson);
 }
 
-class WeatherDisplay extends StatefulWidget {
-  final double latitude;
-  final double longitude;
-
-  WeatherDisplay({Key key, this.latitude, this.longitude}) : super(key: key);
-
-  @override
-  _WeatherDisplayState createState() => _WeatherDisplayState();
-}
-
 String capitalizeWords(String w) {
   return w.split(" ").map((w) => w[0].toUpperCase() + w.substring(1)).join(" ");
 }
 
-class _WeatherDisplayState extends State<WeatherDisplay> {
+class WeatherDisplay extends StatelessWidget {
+  final double latitude;
+  final double longitude;
+
+  WeatherDisplay({Key key, this.latitude, this.longitude}) : super(key: key);
 
   Widget _buildTemperature(BuildContext context, WeatherInformation data) {
     return Padding(
@@ -143,14 +137,14 @@ class _WeatherDisplayState extends State<WeatherDisplay> {
   Widget build(BuildContext context) {
     return FutureBuilder<List>(
       future: Future.wait([
-        fetchWeatherInformation(widget.latitude, widget.longitude),
-        fetchAirPollutionInformation(widget.latitude, widget.longitude)
+        fetchWeatherInformation(this.latitude, this.longitude),
+        fetchAirPollutionInformation(this.latitude, this.longitude)
       ]),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Text(snapshot.error.toString());
         }
-        if (snapshot.hasData) {
+        if (snapshot.connectionState == ConnectionState.done) {
           return Column(
             children: <Widget>[
               _buildTemperature(context, snapshot.data[0]),

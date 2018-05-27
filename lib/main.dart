@@ -68,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
       'contactName': 'Eva Tapir',
       'avatarUrl': 'http://i.pravatar.cc/100?img=26',
       'locationName': 'Peking',
-      'latLng': LatLng(39.956800, 116.400528),
+      'latLng': LatLng(39.9546044,116.4640594),
+      //'latLng': LatLng(39.956800, 116.400528),
     },
   ];
 
@@ -128,9 +129,9 @@ class _MyHomePageState extends State<MyHomePage> {
         trailing: new Text(location['locationName'].toString().toUpperCase(), style: Theme.of(context).textTheme.caption),
         onTap: () {
           setState(() {
+            Navigator.pop(context);
             currentLocation = location;
           });
-          Navigator.pop(context);
         },
       ));
     }
@@ -147,16 +148,19 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           }
-          if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // var loc = this.currentLocation['latLng'] != null ? LatLng(39.9546044, 116.4640594) : snapshot.data;
+            var loc = snapshot.data;
+
             return ListView(
               children: <Widget>[
-                WeatherDisplay(latitude: snapshot.data.latitude, longitude: snapshot.data.longitude),
+                WeatherDisplay(latitude: loc.latitude, longitude: loc.longitude),
                 SizedBox(height: 200.0, child: Karte(
-                    latLng: snapshot.data
+                    latLng: loc
                 )),
                 new Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Feed(snapshot.data),
+                  child: Feed(loc),
                 ),
               ]);
           }
