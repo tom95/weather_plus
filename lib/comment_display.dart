@@ -30,8 +30,7 @@ class CommentDisplay extends StatelessWidget {
                     new Container(
                       height: 200.0,
                       margin: const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 24.0),
-                      child: new Image.network("https://firebasestorage.googleapis.com/v0/b/weatherplus-2bfb7.appspot.com/o/comment-images%2F"
-                        + imageName + "?alt=media"))
+                      child: new Image.network(imageName))
                   );
                 }
 
