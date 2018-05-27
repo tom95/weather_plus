@@ -27,7 +27,7 @@ Future<int> fetchAirPollutionInformation(double latitude, double longitude) asyn
   final response = await http.get('https://api.waqi.info/feed/geo:$latitude;$longitude/?token=$apiKey');
   final jsonResponse = json.decode(response.body);
 
-  if (jsonResponse == null) {
+  if (jsonResponse == null || jsonResponse["data"] == null) {
     return Future.error("Whoops, AQICN had a hickup!");
   }
 
